@@ -5,18 +5,17 @@ chỉnh hiệu năng MySQL 5.7 ngay sau khi cài đặt.
 Một vài năm trước, Stephane Combaudon đã viết bài viết về [10 cài đặt điều chỉnh hiệu
 năng MySQL ngay sai khi cài đặt](https://www.percona.com/blog/2014/01/28/10-mysql-performance-tuning-settings-after-installation/) 
 bao gồm các phiên bản cũ hơn (hiện tại) của MySQL: 5.1, 5.5 và 5.6 . Trong bài viết này,
-Tôi sẽ tập trung vào những gì để điều chỉnh trong MySQL 5.7 (với việc tập trung vào  InnoDB)
+Tôi sẽ xem xét những gì cần điều chỉnh trong MySQL 5.7 (với việc tập trung vào  InnoDB)
 
 Tin tốt là MySQL 5.7 có giá trị mặc định tốt hơn rất nhiều. Morgan Tocker đã tạo ra
 một [trang có danh sách đầy đủ các tính năng trong MySQL 5.7](http://www.thecompletelistoffeatures.com/), 
-và nó là một điểm tham chiếu tuyệt vời. Ví dụ, các giá trị sau được cài đặt theo mặc định:
+và nó là một nguồn tham khảo tuyệt vời. Ví dụ, các biến sau được đặt mặc định:
 - innodb_file_per_table = ON
 - innodb_stats_on_metadata = OFF
 - innodb_buffer_pool_instances = 8 (hoặc 1 nếu innodb_buffer_pool_size < 1GB)
 - query_cache_type = 0; query_cache_size = 0; (vô hiệu hóa mutex)
 
-Trong MySQL 5.7, chỉ có bốn biến thực sự quan trọng cần được thay đổi. Tuy nhiên, 
-Tuy nhiên, có các biến khác của InnoDB và biến toàn cục của MySQL có thể cần được điều chỉnh cho một khối lượng công việc và phần cứng cụ thể.
+Trong MySQL 5.7, chỉ có bốn biến thực sự quan trọng cần được thay đổi.Tuy nhiên, có các biến khác của InnoDB và biến toàn cục của MySQL có thể cần được điều chỉnh cho một khối lượng công việc và phần cứng cụ thể.
 
 Để bắt đầu, thêm các cài đặt sau vào my.cnf trong phần [mysqld]. Bạn cần khởi động lại MySQL:
 
@@ -79,7 +78,7 @@ Thông thường, tôi sẽ thiết lập công cụ theo dõi / vẽ đồ th�
  
  ![img](https://www.percona.com/blog/wp-content/uploads/2016/10/Screen-Shot-2016-10-03-at-7.19.47-PM.png)
  
- Trong trường hợp này, tổng cộng số dirty pages cao, và có vẻ như InnoDB không thể đuổi kịp nó.
+ Trong trường hợp này, tổng cộng số trang bẩn cao, và có vẻ như InnoDB không thể đuổi kịp nó.
  Nếu chúng tôi có hệ thống phụ đĩa nhanh (nghĩa là SSD), chúng tôi có thể hưởng lợi từ việc tăng `innodb_io_capacity` và `innodb_io_capacity_max`.
  
  **Kết luận hoặc TL; DR phiên bản**
